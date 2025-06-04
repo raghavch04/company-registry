@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-// import xss from 'xss-clean'; // Optional if you add this security layer
+// import xss from 'xss-clean'; // Optional
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
@@ -17,7 +17,7 @@ const app = express();
 
 // Security middleware
 app.use(helmet());
-// app.use(xss()); // Uncomment if using xss-clean
+// app.use(xss()); // Uncomment if you want XSS protection
 app.use(compression());
 
 // Body parsing
@@ -33,7 +33,7 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
-// CORS for frontend access
+// CORS
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:5173',
   credentials: true
@@ -47,6 +47,11 @@ if (process.env.NODE_ENV === 'development') {
 // API routes
 app.use('/api/companies', companyRoutes);
 app.use('/api/geocode', geocodeRoutes);
+
+// Health check route
+app.get('/', (req, res) => {
+  res.send('API is running...');
+});
 
 // Static file serving for production
 const __filename = fileURLToPath(import.meta.url);

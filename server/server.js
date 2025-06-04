@@ -6,7 +6,6 @@ import app from './app.js';
 
 const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB BEFORE starting the server
 connectDB().then(() => {
   app.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
@@ -16,7 +15,7 @@ connectDB().then(() => {
   process.exit(1);
 });
 
-// Handle unhandled rejections
+// Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
   console.log(`Error: ${err.message}`);
   process.exit(1);
