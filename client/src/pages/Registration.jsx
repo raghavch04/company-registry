@@ -113,7 +113,6 @@ const Registration = () => {
 
       await companyApi.register(companyData);
       resetForm();
-      // SweetAlert2 popup
       Swal.fire({
         icon: 'success',
         title: 'Company Registered!',
@@ -121,8 +120,29 @@ const Registration = () => {
         confirmButtonColor: '#2563eb'
       });
     } catch (error) {
+      // Check for duplicate email error
+      const msg = error.response?.data?.message || '';
+      if (
+        msg.toLowerCase().includes('email') &&
+        (msg.toLowerCase().includes('exists') ||
+          msg.toLowerCase().includes('duplicate') ||
+          msg.toLowerCase().includes('unique'))
+      ) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Already Registered',
+          text: 'Company / mail is already registered with us',
+          confirmButtonColor: '#d33'
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Registration Failed',
+          text: msg || 'Failed to register company',
+          confirmButtonColor: '#d33'
+        });
+      }
       console.error('Registration error:', error);
-      toast.error(error.response?.data?.message || 'Failed to register company');
     } finally {
       setIsSubmitting(false);
     }
