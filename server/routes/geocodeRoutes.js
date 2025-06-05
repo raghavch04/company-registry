@@ -34,8 +34,9 @@ router.get('/reverse', async (req, res) => {
     }
 
     const result = await geocodeService.reverseGeocode(lat, lng);
+   
     res.json(result);
-  } catch (error) {
+  } catch (error) { 
     res.status(500).json({ 
       error: 'Reverse geocoding service unavailable',
       details: error.message

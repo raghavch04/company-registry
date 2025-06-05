@@ -35,7 +35,7 @@ app.use('/api', limiter);
 
 // CORS
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'https://company-registry.onrender.com/',
+   origin: process.env.FRONTEND_URL || 'https://raghavmisha.netlify.app',
   credentials: true
 }));
 
