@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+// import xss from 'xss-clean'; // Optional
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
@@ -16,6 +17,7 @@ const app = express();
 
 // Security middleware
 app.use(helmet());
+// app.use(xss()); // Uncomment if you want XSS protection
 app.use(compression());
 
 // Body parsing
@@ -25,17 +27,23 @@ app.use(cookieParser());
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
+  windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100,
   message: 'Too many requests from this IP'
 });
 app.use('/api', limiter);
 
-// CORS - Adjust credentials if no cookie/auth session needed
+// CORS
+// app.use(cors({
+//   origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+//   credentials: true
+// }));
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'https://raghavmisha.netlify.app',
-  credentials: true // or false if no cookies needed
+  origin: ['https://raghavregistory.netlify.app', 'http://localhost:5173'],
+  credentials: true
 }));
+
 
 // Logging
 if (process.env.NODE_ENV === 'development') {
@@ -51,18 +59,19 @@ app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
-// Static files in production
+// Static file serving for production
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/dist')));
+
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
   });
 }
 
-// Error middleware
+// Error handling middleware
 app.use(errorMiddleware);
 
 export default app;

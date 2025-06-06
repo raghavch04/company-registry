@@ -82,4 +82,5 @@ const AddressMap = ({ coordinates, address, onMapClick }) => {
   );
 };
 
-export default AddressMap;
+export default AddressMap; 
+
