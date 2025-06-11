@@ -4,6 +4,10 @@ import Home from './pages/Home';
 import Registration from './pages/Registration';
 import AdvancedSearch from './pages/AdvancedSearch';
 import Footer from './components/Footer';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+// Remove SweetAlert2 CSS if not used elsewhere
+// import 'sweetalert2/dist/sweetalert2.min.css';
 
 function App() {
   return (
@@ -18,7 +22,8 @@ function App() {
           </Routes>
         </main>
         <Footer />
-      </div>
+        <ToastContainer />
+      </div> 
     </Router>
   );
 }

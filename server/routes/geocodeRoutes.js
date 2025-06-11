@@ -41,7 +41,7 @@ router.get('/reverse', async (req, res) => {
       error: 'Reverse geocoding service unavailable',
       details: error.message
     });
-  }
+  }        
 });
 
-export default router;
+export default router;      

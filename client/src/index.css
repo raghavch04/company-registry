@@ -1,5 +1,6 @@
 @import url('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css');
 @import "tailwindcss";
+@import 'animate.css';
 
 
 
@@ -28,4 +29,8 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
+}
+
+.swal2-container {
+  z-index: 9999 !important;
 }
